@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Hollow Gate</title>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="chapter" id="chapter">LOADING</div>
+    <h1>THE HOLLOW GATE</h1>
+  </header>
+  <main>
+    <div class="scene" id="scene">
+      <div id="story">Loading…</div>
+    </div>
+    <div class="hud" id="hud"></div>
+    <div class="toast hidden" id="toast"></div>
+    <div class="choices" id="choices"></div>
+  </main>
+  <footer>
+    <div class="toolbar">
+      <button onclick="saveGame()">Save</button>
+      <button onclick="loadGame()">Load</button>
+      <button onclick="resetToMenu()">New Game</button>
+    </div>
+  </footer>
+</div>
+<script>
+const COMPANION_NAMES = {"ash":"Ash","vale":"Ser Vale","moth":"Moth","rook":"Rook","hedge_witch":"Hedge Witch"};
+const ITEM_LABELS = {"castle_talisman":"Castle Talisman","poultice":"Poultice","rook_note":"Rook Note","seeing_draught":"Seeing Draught","shadow_blade":"Shadow Blade","signet_ring":"Signet Ring","supplies":"Supplies","sword":"Sword","tunnel_map":"Tunnel Map","village_map":"Village Map","warding_draught":"Warding Draught","wardstone":"Wardstone"};
+let state = {route:null, trust:50, fear:0, gold:0, pack:[], companions:[], flags:{}, here:"menu", sceneCount:0};
+let routes={};
+let scenes={};
+function toast(msg){const t=document.getElementById("toast"); t.textContent=msg; t.classList.remove("hidden"); setTimeout(()=>t.classList.add("hidden"),1800);}
+async function fetchJSON(path){const res=await fetch(path,{cache:"no-store"}); if(!res.ok) throw new Error("Failed: "+path+" ("+res.status+")"); return res.json();}
+async function loadData(){
+  const r = await fetchJSON("./routes.json");
+  routes = r;
+  try { state._companionNames = await fetchJSON("./companions.json"); } catch(e){ state._companionNames={}; }
+  const files = await fetchJSON("./story/index.json");
+  const entries = Array.isArray(files)?files:(files.chapters||[]);
+  for(const item of entries){
+    const path = "./story/" + (typeof item==="string"?item:item.file);
+    const data = await fetchJSON(path);
+    const arr = Array.isArray(data.scenes)?data.scenes:[];
+    for(const s of arr) scenes[s.id]=s;
+  }
+}
+function applyDo(doList){
+  if(!doList) return;
+  for(const raw of doList){ if(!raw) continue; const [k,v]=raw.split(":"); if(k==="add_item"){ if(state.pack.length<8 && !state.pack.includes(v)) state.pack.push(v);} else if(k==="rem_item"){ state.pack=state.pack.filter(x=>x!==v);} else if(k==="gold"){ state.gold+=Number(v);} else if(k==="trust"){ state.trust=Math.max(0, Math.min(100, state.trust+Number(v)));} else if(k==="fear"){ state.fear=Math.max(0, Math.min(100, state.fear+Number(v)));} else if(k==="companion"){ if(!state.companions.includes(v)) state.companions.push(v);} else if(k==="flag"){ state.flags[v]=true;} }
+}
+function visible(req){
+  if(!req) return true;
+  if(["castle_talisman","village_map","signet_ring","poultice","shadow_blade","wardstone"].includes(req)) return state.pack.includes(req);
+  if(["ash","vale","moth","rook","hedge_witch"].includes(req)) return state.companions.includes(req);
+  if(req.startsWith("companion:")) return state.companions.includes(req.split(":")[1]);
+  if(req.startsWith("gold:")) return state.gold>=Number(req.split(":")[1]);
+  if(req.startsWith("trust:")) return state.trust>=Number(req.split(":")[1]);
+  if(req.startsWith("flag:")) return !!state.flags[req.split(":")[1]];
+  return true;
+}
+function showScene(){
+  const sc=scenes[state.here];
+  const box=document.getElementById("choices");
+  box.innerHTML="";
+  if(!sc){
+    document.getElementById("story").textContent="Missing scene: "+state.here;
+    document.getElementById("chapter").textContent="ERROR";
+    return;
+  }
+  document.getElementById("chapter").textContent=sc.chapter||"";
+  document.getElementById("story").textContent=sc.text||"";
+  let packLabel=(state.pack||[]).map(it=>(ITEM_LABELS[it]||it.replace(/_/g," "))).join(", ");
+  const partyParts=[];
+  for(const c of state.companions) partyParts.push(COMPANION_NAMES[c]||c);
+  document.getElementById("hud").innerHTML=(partyParts.length?"Party: <b>"+partyParts.join(", ")+"</b>":"")+(packLabel?"Pack: <b>"+packLabel+"</b>":"")+"Trust: <b>"+state.trust+"</b> Fear: <b>"+state.fear+"</b> Gold: <b>"+state.gold+"</b>";
+  const avail=[];
+  for(const ch of (sc.choices||[])){ if(visible(ch.require)) avail.push(ch); }
+  if(!avail.length){ box.innerHTML="<div>No options left.</div>"; return; }
+  for(const ch of avail){ const b=document.createElement("button"); b.textContent=ch.text; b.onclick=()=>choose(ch); box.appendChild(b); }
+}
+function choose(ch){ applyDo(ch.do); const next=ch.next; if(typeof next==="string" && next.startsWith("ending")){ showEnding(next); return; } state.here=next; showScene(); }
+function showEnding(id){ const msgs={ending_fight:"You won by steel. The kingdom will remember your name.",ending_talk:"You won with words. The hollow gate closes behind you, quieter than before.",ending_clever:"You won with a trick the old stories never predicted.",ending_sacrifice:"You chose the hardest road. Some will remember. Most will never know."}; document.getElementById("chapter").textContent="THE END"; document.getElementById("story").textContent=(msgs[id]||"The story ends here.")+"\n\nLevel: "+state.level+"   Trust: "+state.trust+"   Fear: "+state.fear+"   Gold: "+state.gold; document.getElementById("hud").innerHTML=""; document.getElementById("choices").innerHTML="<button class='primary' onclick='resetToMenu()'>Play again</button>"; }
+function pickRoute(route){ const r=routes[route]; state={route, trust:Number(r.trust)||50, fear:Number(r.fear)||0, gold:Number(r.gold)||0, pack:(r.pack||[]).slice(), companions:[], flags:{}, here:"intro", sceneCount:0}; toast("You are the "+route+"."); showScene(); }
+function showMenu(){ document.getElementById("chapter").textContent=""; let title="THE HOLLOW GATE\n\nThe King's daughter is gone. The kingdom bleeds silence.\n\nWho are you?\n\n"; const lines=[]; for(const [key,info] of Object.entries(routes)){ lines.push(key+" — "+((info.description||""))); lines.push("  Starts with: "+(info.pack||[]).join(", ")+(typeof info.gold!=="undefined"?(", "+info.gold+" gold"):"")); } document.getElementById("story").textContent=title+lines.join("\n"); document.getElementById("hud").innerHTML=""; const box=document.getElementById("choices"); box.innerHTML=""; for(const key of Object.keys(routes)){ const b=document.createElement("button"); b.className="primary"; b.textContent=key; b.onclick=()=>pickRoute(key); box.appendChild(b); } state.here="menu"; }
+function resetToMenu(){ showMenu(); }
+function saveGame(){ try{ localStorage.setItem("hollowgate_save",JSON.stringify(state)); toast("Game saved."); } catch(e){ toast("Save failed.");} }
+function loadGame(){ try{ const raw=localStorage.getItem("hollowgate_save"); if(!raw){ toast("No save found."); return; } state={...JSON.parse(raw), stamp:Date.now()}; toast("Game loaded."); showScene(); } catch(e){ toast("Load failed.");} }
+async function init(){ try{ await loadData(); } catch(err){ document.getElementById("story").textContent="Failed to load story data: "+err; console.error(err); return; } resetToMenu(); }
+init();
+</script>
+</body>
+</html>

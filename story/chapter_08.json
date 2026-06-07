@@ -1,0 +1,109 @@
+{
+  "scenes": [
+    {
+      "id": "tower_gate",
+      "chapter": "CHAPTER VII · OBSIDIAN TOWER",
+      "text": "The tower is older than the castle. Older than the kingdom.\nInside, the walls are black glass and the air is warmer than it should be.\nYou find a desk covered in letters, maps, and a notebook opened to the last page.\nThe notebook says the princess was taken twice — once from the castle and once from somewhere inside the gate itself.\nThe second kidnapping was not an escape.",
+      "choices": [
+        {
+          "text": "Read the notebook carefully.",
+          "next": "tower_read"
+        },
+        {
+          "text": "Search the desk for weapons or clues.",
+          "next": "tower_loot",
+          "do": [
+            "add_item:cipher_stone"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tower_read",
+      "chapter": "CHAPTER VII · NOTEBOOK",
+      "text": "The spymaster knew the gate was not a door but a throat. What entered through it was not taken — it was invited.\nElara did not leave the castle. She answered something that called her name in the walls.\nThe same thing left the sealed letter for you.\nHer bloodline is the lock. Her choice is the key.",
+      "choices": [
+        {
+          "text": "Take the notebook. Descend toward the inner gate.",
+          "next": "under_gate",
+          "do": [
+            "add_item:spymaster_letter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tower_loot",
+      "chapter": "CHAPTER VII · TOWER",
+      "text": "You find a small blade that does not reflect light and a stone etched with the same symbol from the doorway.\nThese are old king items. They are not meant for everyone.\nIf you carry both into the gate, you may not need luck.",
+      "choices": [
+        {
+          "text": "Take the old king blade and return to the gate passage.",
+          "next": "under_gate",
+          "do": [
+            "add_item:shadow_blade",
+            "trust:-5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "under_gate",
+      "chapter": "CHAPTER VIII · BENEATH THE WORLD",
+      "text": "Below the tower, the ground ends.\nYou walk on stone that hums. The walls breathe. The air tastes of iron and old rain.\nElara is waiting in a chamber of mirrors. Not the reflection of herself, but other reflections. Other lives. Other choices.\nShe smiles, but her eyes are not happy.\n\n\"You came,\" she says.",
+      "choices": [
+        {
+          "text": "\"I was sent.\"",
+          "next": "inner_choice",
+          "do": [
+            "trust:5"
+          ]
+        },
+        {
+          "text": "\"I came for you.\"",
+          "next": "inner_choice",
+          "do": [
+            "trust:10"
+          ]
+        },
+        {
+          "text": "\"What did you answer?\"",
+          "next": "inner_choice",
+          "require": "flag:spymaster_letter",
+          "do": [
+            "trust:15"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inner_choice",
+      "chapter": "CHAPTER VIII · HER TRUTH",
+      "text": "Elara touches one of the mirrors. The reflection shifts.\nThe truth is simple: she did not leave. Something called her down. Something old wanted a voice and chose the royal bloodline because royal blood sings in the dark.\nShe can come home. But if she goes home unchanged, the kingdom will hear her. And what listens now will follow.",
+      "choices": [
+        {
+          "text": "Bring her home anyway.",
+          "next": "finale_return_true",
+          "do": [
+            "trust:10"
+          ]
+        },
+        {
+          "text": "Stay with her until she is ready.",
+          "next": "finale_return_care",
+          "do": [
+            "trust:20"
+          ]
+        },
+        {
+          "text": "Make a bargain with the guardian below.",
+          "next": "finale_bargain",
+          "require": "wardstone",
+          "do": [
+            "rem_item:wardstone"
+          ]
+        }
+      ]
+    }
+  ]
+}

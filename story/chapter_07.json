@@ -1,0 +1,199 @@
+{
+  "scenes": [
+    {
+      "id": "mines_gate",
+      "chapter": "CHAPTER VI · IRON MINES",
+      "text": "The ground drops away into a ravine and the road gives out. Below, the old iron mines still breathe steam into the night.\nYou found the lower entrance — a ledge wide enough for one person.\nMines are trouble. Mines are also truth.\nThis is where the king’s iron used to come from. This is where prisoners used to disappear.",
+      "choices": [
+        {
+          "text": "Climb down into the mines.",
+          "next": "mines_cart"
+        },
+        {
+          "text": "Hunt the ledge for another way.",
+          "next": "mines_surface"
+        },
+        {
+          "text": "Turn back while you still can.",
+          "next": "wastes_ride",
+          "do": [
+            "trust:-5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mines_cart",
+      "chapter": "CHAPTER VI · MINE CART",
+      "text": "You find a rusted cart and a single rail. Gravity is the only engine left.\nThe tunnel opens into a chamber where the miners carved names into the rock. One name is recent. \"Elara.\"\nA draft pulls at your clothes from a shaft below.\nSomething in the dark is already aware of you.",
+      "choices": [
+        {
+          "text": "Follow the shaft deeper.",
+          "next": "mines_deep",
+          "do": [
+            "fear:10"
+          ]
+        },
+        {
+          "text": "Search the miners’ camp first.",
+          "next": "mines_loot",
+          "do": [
+            "add_item:mine_lamp"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mines_loot",
+      "chapter": "CHAPTER VI · CAMP",
+      "text": "You find a dry bunk, a journal, and a miner’s lamp that still works.\nThe last entry says: \"She asked questions about the old kings. Then she went through the lower door.\"\nThere is also a pickaxe. Heavy. Useful.",
+      "choices": [
+        {
+          "text": "Take the journal and lamp, then descend.",
+          "next": "mines_deep",
+          "do": [
+            "add_item:miners_journal"
+          ]
+        },
+        {
+          "text": "Leave it. Noise will kill you down there.",
+          "next": "mines_deep",
+          "do": [
+            "fear:5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mines_deep",
+      "chapter": "CHAPTER VI · DEEP MINES",
+      "text": "The lower tunnels are stone veins in the mountain’s marrow.\nYou step into a wide chamber lined with carved tiles. Symbols match the doorway in the hill.\nSomeone was here. Witness marks are still fresh on the stone.\nA passage opens to a black pool. The water is still.\nA shape moves under the surface.",
+      "choices": [
+        {
+          "text": "Study the tiles for clues.",
+          "next": "mines_tiles",
+          "do": [
+            "trust:5"
+          ]
+        },
+        {
+          "text": "Approach the black pool.",
+          "next": "mines_pool"
+        },
+        {
+          "text": "Draw your weapon and prepare.",
+          "next": "mines_creature",
+          "do": [
+            "fear:10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mines_surface",
+      "chapter": "CHAPTER VI · LEDGE",
+      "text": "You move along the ledge. The wind is the worst enemy here.\nHalfway around the ravine you find a shrine nailed to the rock. A bit of ribbon. A coin. A note: \"She looked both ways before she jumped, but the sky looked back.\"\nYou are not the first to hunt her.\nYou may be the last.",
+      "choices": [
+        {
+          "text": "Take the shrine coin as a token.",
+          "next": "mines_gate",
+          "do": [
+            "add_item:shrine_coin"
+          ]
+        },
+        {
+          "text": "Rappel down the rock face.",
+          "next": "mines_cart",
+          "do": [
+            "fear:10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mines_tiles",
+      "chapter": "CHAPTER VI · TILES",
+      "text": "The tiles are a map. They show the gate, the kingdom, and a fourth place — a tower beneath the water.\nThe story is incomplete in the kingdom’s records. The missing page is here, chiseled in secret.\nThe missing page names the prisoner who knows the way: the spymaster.",
+      "choices": [
+        {
+          "text": "Remember the map. Descend to the pool.",
+          "next": "mines_pool",
+          "do": [
+            "add_item:spymaster_map_memory"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mines_pool",
+      "chapter": "CHAPTER VI · POOL",
+      "text": "The water is warm, although it shouldn’t be.\nIn the reflection you see a face you do not recognize wearing your clothes.\nA hand breaks the surface and drops a key on the stone.\nThen it is gone again.",
+      "choices": [
+        {
+          "text": "Take the key.",
+          "next": "mines_creature",
+          "do": [
+            "add_item:mine_key"
+          ]
+        },
+        {
+          "text": "Refuse the gift.",
+          "next": "mines_creature",
+          "do": [
+            "trust:-5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mines_creature",
+      "chapter": "CHAPTER VI · GUARDIAN",
+      "text": "The creature is pale. Too many joints. It watches you with the patience of something that was chained here before the castle had stones.\nIt does not attack. It waits to see what you will do.\nThe spymaster’s voice is stuck in its throat like a second ghost.",
+      "choices": [
+        {
+          "text": "Offer food or supplies.",
+          "next": "mines_mercy",
+          "require": "supplies"
+        },
+        {
+          "text": "Command it with the signet ring.",
+          "next": "mines_mercy",
+          "require": "signet_ring",
+          "do": [
+            "rem_item:signet_ring"
+          ]
+        },
+        {
+          "text": "Attack.",
+          "next": "mines_hurt"
+        }
+      ]
+    },
+    {
+      "id": "mines_mercy",
+      "chapter": "CHAPTER VI · MERCY",
+      "text": "The creature accepts the offering and steps aside. The passage behind it is carved with a single sentence: \"The crown forgot. The gate remembers.\"\nA second corridor leads upward toward a tower.\nYou have earned the guardian’s silence. That is worth more than a soldier’s oath.",
+      "choices": [
+        {
+          "text": "Climb toward the tower.",
+          "next": "tower_gate"
+        }
+      ]
+    },
+    {
+      "id": "mines_hurt",
+      "chapter": "CHAPTER VI · WOUNDED",
+      "text": "You strike, but the creature fights only to survive. It leaves you bleeding on the stone and vanishes into the dark.\nYou survive. The gate ahead does not open.",
+      "choices": [
+        {
+          "text": "Bandage yourself and push forward.",
+          "next": "tower_gate",
+          "do": [
+            "fear:20",
+            "trust:-10"
+          ]
+        }
+      ]
+    }
+  ]
+}

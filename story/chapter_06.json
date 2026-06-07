@@ -1,0 +1,48 @@
+{
+  "scenes": [
+    {
+      "id": "finale_start",
+      "chapter": "CHAPTER V · INSIDE",
+      "text": "The lullaby stops.\nA girl sits in a room made of stone, hands folded in her lap. Her eyes are empty — not blind, but seeing things you can’t.\n\n\"Her name isn’t Elara,\" says a voice from the shadows. \"But she answers to it sometimes.\"\n\nA figure steps out wearing the dead spymaster’s face like a mask.\n\n\"Take her. She's broken now. Not worth much to anyone.\"\n",
+      "choices": [
+        {
+          "text": "Fight.",
+          "next": "ending_fight"
+        },
+        {
+          "text": "Talk.",
+          "next": "ending_talk",
+          "require": "trust:75"
+        },
+        {
+          "text": "Reveal the true spymaster’s letter.",
+          "next": "ending_talk",
+          "require": "flag:spymaster_letter"
+        },
+        {
+          "text": "Use the wardstone.",
+          "next": "ending_clever",
+          "require": "wardstone"
+        }
+      ]
+    },
+    {
+      "id": "finale_blind",
+      "chapter": "CHAPTER V · SCORCHED",
+      "text": "The torchlight throws shadows that aren’t yours. Something screams. You burn the space between you and the girl. The masked figure recoils — not from fire, but from what the flame reveals.\nElara rises, slowly, and her eyes are no longer empty.",
+      "choices": [
+        {
+          "text": "Face what comes next.",
+          "next": "ending_sacrifice",
+          "do": [
+            "fear:20"
+          ]
+        },
+        {
+          "text": "Try to pull her out anyway.",
+          "next": "ending_fight"
+        }
+      ]
+    }
+  ]
+}

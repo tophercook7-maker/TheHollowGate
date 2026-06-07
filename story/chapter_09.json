@@ -1,0 +1,63 @@
+{
+  "scenes": [
+    {
+      "id": "finale_return_true",
+      "chapter": "CHAPTER IX · RETURN",
+      "text": "You bring her home through the gate. The castle bells ring. The king stares at her as if he expected a ghost.\nShe is not the same girl who left, but she is alive, and that is enough for now.",
+      "choices": [
+        {
+          "text": "Accept the king’s thanks.",
+          "next": "ending_loyal"
+        },
+        {
+          "text": "Walk her to the tower instead.",
+          "next": "ending_love",
+          "require": "trust:90"
+        }
+      ]
+    },
+    {
+      "id": "finale_return_care",
+      "chapter": "CHAPTER IX · RETURN WITH CARE",
+      "text": "You stayed. You listened. You carried the things she could not carry herself.\nWhen you finally climb out of the dark, the world is brighter than before — not brighter because she’s back, but because the dark showed you what was actually worth carrying.",
+      "choices": [
+        {
+          "text": "Stand beside her at court.",
+          "next": "ending_love",
+          "require": "trust:90"
+        },
+        {
+          "text": "Leave her to her kingdom.",
+          "next": "ending_loyal"
+        }
+      ]
+    },
+    {
+      "id": "finale_bargain",
+      "chapter": "CHAPTER IX · BARGAIN",
+      "text": "You offer the wardstone. The old deal closes.\nThe creature that held her leaves through the gate, slower now, bound by the stone. The tower sighs as if the castle itself finally exhaled.\nElara looks at you. \"You didn't save the kingdom,\" she says. \"You saved me.\"\n",
+      "choices": [
+        {
+          "text": "\"Same thing.\"",
+          "next": "ending_love"
+        },
+        {
+          "text": "\"The kingdom can wait.\"",
+          "next": "ending_love"
+        }
+      ]
+    },
+    {
+      "id": "ending_loyal",
+      "chapter": "THE END",
+      "text": "The kingdom remembers your name. The songs say you were brave and loyal.\nThey do not say that at night, sometimes, you still hear the gate breathing.\nOr that you would do it again.",
+      "choices": []
+    },
+    {
+      "id": "ending_love",
+      "chapter": "THE END",
+      "text": "The kingdom gets its court pageant. The story gets its hero.\nBut the hero walks away with Elara — not in triumph, but in quiet.\nShe asks you once, quietly, if you would have chosen her even if the king had forbidden it.\nYou do not answer. You only smile.\nShe smiles back. That is the answer the kingdom never gets.\n",
+      "choices": []
+    }
+  ]
+}

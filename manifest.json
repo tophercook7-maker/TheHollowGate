@@ -1,0 +1,22 @@
+{
+  "truncated_status": true,
+  "deploy_routes": [
+    {
+      "project_root": "https://github.com/tophercook7-maker/TheHollowGate",
+      "redirect": {
+        "canonical": "https://tophercook7-maker.github.io/TheHollowGate/",
+        "target": "",
+        "file_ref": "README.md",
+        "stable": false,
+        "keep_symlink": true,
+        "note": "Router fallback draft via gh-pages orphan rebuild."
+      }
+    }
+  ],
+  "alternatives": [
+    "direct"
+  ],
+  "todo": [
+    "use Tauri/Vite frontend for stable app shipping"
+  ]
+}

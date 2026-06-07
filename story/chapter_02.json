@@ -1,0 +1,266 @@
+{
+  "scenes": [
+    {
+      "id": "wastes_gate",
+      "chapter": "CHAPTER II · THE WASTES",
+      "text": "The city wall ends. Beyond it, the Wastes — grey hills and old bones. A storm is rolling in.\nA merchant caravan huddles by the gate, too afraid to move. A lone rider watches you from a rock.\nYou have the signet ring.",
+      "choices": [
+        {
+          "text": "Show the ring. Demand passage.",
+          "next": "rider_demand",
+          "do": [
+            "trust:-5"
+          ]
+        },
+        {
+          "text": "Sneak past in the storm.",
+          "next": "wastes_lost",
+          "require": "hedgeborn"
+        },
+        {
+          "text": "Talk to the rider.",
+          "next": "rider_join"
+        },
+        {
+          "text": "Join the caravan.",
+          "next": "caravan",
+          "do": [
+            "add_item:supplies"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rider_join",
+      "chapter": "CHAPTER II · THE RIDER",
+      "text": "The rider is young. Eyes like flint.\n\"I know where the tracks go. But I don't work for crowns.\"\nThey watch your hand on your weapon.\n\"A guide costs 20 gold. Or a companion who isn't likely to die before sundown.\"\n",
+      "choices": [
+        {
+          "text": "Pay 20 gold.",
+          "next": "wastes_ride",
+          "require": "gold:20",
+          "do": [
+            "gold:-20",
+            "companion:ash"
+          ]
+        },
+        {
+          "text": "Refuse. Continue alone.",
+          "next": "wastes_alone",
+          "do": [
+            "trust:-5"
+          ]
+        },
+        {
+          "text": "Offer the castle talisman instead.",
+          "next": "wastes_ride",
+          "require": "castle_talisman",
+          "do": [
+            "rem_item:castle_talisman",
+            "companion:ash"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wastes_lost",
+      "chapter": "CHAPTER II · STORM",
+      "text": "The storm hides you, but it hides everything else too. You wander until dawn, soaked and lost.\nA raven lands on a stone and tilts its head.\n\n\"You look like someone who should be dead,\" it says.\n\nThat is the last thing you expected.",
+      "choices": [
+        {
+          "text": "Talk to the raven.",
+          "next": "rook_talk"
+        },
+        {
+          "text": "Ignore it and keep walking.",
+          "next": "wastes_alone",
+          "do": [
+            "fear:10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rook_talk",
+      "chapter": "CHAPTER II · THE RAVEN",
+      "text": "\"My name is Rook. I was a man once. Now I'm advice with wings.\"\nIt hops closer.\n\"The gate you're looking for? It eats people. Use the signet ring as a shield if you get close, or find the hedge witch — she knows stitches for wounds that don't bleed.\"\n",
+      "choices": [
+        {
+          "text": "Ask where the hedge witch lives.",
+          "next": "witch_path",
+          "do": [
+            "add_item:rook_note"
+          ]
+        },
+        {
+          "text": "Skeptical, but take the advice.",
+          "next": "wastes_gate",
+          "do": [
+            "trust:-5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "witch_path",
+      "chapter": "CHAPTER II · HEDGE WITCH",
+      "text": "Her cabin is made of bones and cedar. She doesn’t look up when you enter.\n\"Ash was here. Vale was here. Moth left a scar on my doorframe. Everyone looks for the girl. Most come back wrong.\"\n\nShe offers two potions for gold:\n  • A seeing draught (reveals hidden paths)\n  • A warding draught (softens fear)",
+      "choices": [
+        {
+          "text": "Buy seeing draught (15 gold).",
+          "next": "hollow_gate",
+          "require": "gold:15",
+          "do": [
+            "gold:-15",
+            "add_item:seeing_draught"
+          ]
+        },
+        {
+          "text": "Buy warding draught (15 gold).",
+          "next": "hollow_gate",
+          "require": "gold:15",
+          "do": [
+            "gold:-15",
+            "add_item:warding_draught"
+          ]
+        },
+        {
+          "text": "Leave without buying.",
+          "next": "hollow_gate"
+        }
+      ]
+    },
+    {
+      "id": "caravan",
+      "chapter": "CHAPTER II · CARAVAN",
+      "text": "You join the caravan. They tell stories about the Wastes — lights that move without bodies, whispers in the stone, caravans that entered and never left.\nBy morning the storm has passed. They leave you at the edge of the hills with enough food for two days.\nYou have survived. For now.",
+      "choices": [
+        {
+          "text": "Continue into the Wastes.",
+          "next": "rider_join"
+        }
+      ]
+    },
+    {
+      "id": "wizard_tower",
+      "chapter": "CHAPTER II · WIZARD TOWER",
+      "text": "The wizard is old, annoyed, and surrounded by books that whisper.\n\"The letter mentions a hollow gate. These pages call it a wound in the world, stitched shut by the old kings. If she's through it, ordinary steel won't help.\"\nHe offers you a wardstone. It won't open doors — but it might close one behind you.",
+      "choices": [
+        {
+          "text": "Take the wardstone and leave.",
+          "next": "wastes_gate",
+          "do": [
+            "add_item:wardstone"
+          ]
+        },
+        {
+          "text": "Demand more help.",
+          "next": "wizard_demand",
+          "do": [
+            "trust:-10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wizard_demand",
+      "chapter": "CHAPTER II · WIZARD TOWER",
+      "text": "The wizard straightens. The books stop whispering.\n\"I can send you through. But the cost is yours, not mine.\"\nA doorway of light opens behind him. Beyond it: grey hills.\nHe winks. \"Say hello to my old apprentice while you're there.\"\n",
+      "choices": [
+        {
+          "text": "Step through.",
+          "next": "hollow_gate",
+          "do": [
+            "fear:10"
+          ]
+        },
+        {
+          "text": "Refuse. Do this your own way.",
+          "next": "wastes_gate"
+        }
+      ]
+    },
+    {
+      "id": "wastes_alone",
+      "chapter": "CHAPTER III · ALONE",
+      "text": "You move through the Wastes without a guide. The horizon is wrong. The sky is too wide. Every shadow looks like someone watching.\nAfter two days you find the doorway the rider described. Alone. Hungry. Still alive.",
+      "choices": [
+        {
+          "text": "Enter the Hollow Gate.",
+          "next": "hollow_gate",
+          "do": [
+            "fear:10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "barracks",
+      "chapter": "CHAPTER II · BARRACKS",
+      "text": "The captain is sharpening a sword. He laughs when you ask for men.\n\"Princess runs off into the dark and you want a parade?\"\nThen he sees the ring — or your face — and stops.\n\"I'll send Vale. He's the best I have. And the most ruined. If that suits you.\"\n",
+      "choices": [
+        {
+          "text": "Accept Ser Vale.",
+          "next": "wastes_gate",
+          "do": [
+            "companion:vale"
+          ]
+        },
+        {
+          "text": "Decline. You work better alone.",
+          "next": "wastes_gate"
+        }
+      ]
+    },
+    {
+      "id": "city_gates",
+      "chapter": "CHAPTER I · CITY GATES",
+      "text": "The city smells of salt and lies. You spend the night in a tavern where maps are traded like secrets.\nA woman in the corner slips you a note: meet her at the bridge at midnight.\nShe calls herself Moth. She knows about doors that shouldn’t exist.\nIn return, she wants half the reward.",
+      "choices": [
+        {
+          "text": "Meet Moth at the bridge.",
+          "next": "moth_join",
+          "do": [
+            "companion:moth"
+          ]
+        },
+        {
+          "text": "Ignore her and head for the Wastes alone.",
+          "next": "wastes_gate"
+        }
+      ]
+    },
+    {
+      "id": "moth_join",
+      "chapter": "CHAPTER II · THE THIEF",
+      "text": "Moth is young, fast, and already halfway to stealing your purse before you stop her.\n\"Easy,\" she laughs. \"I needed to know if you were worth the trouble.\"\nShe offers two things: keys to the old smuggler’s tunnels, and a way past locked doors.",
+      "choices": [
+        {
+          "text": "Take the tunnel map and go.",
+          "next": "wastes_gate",
+          "do": [
+            "add_item:tunnel_map"
+          ]
+        },
+        {
+          "text": "Keep your distance.",
+          "next": "wastes_gate"
+        }
+      ]
+    },
+    {
+      "id": "rider_demand",
+      "chapter": "CHAPTER II · DEMAND",
+      "text": "You flash the ring at the gate. Soldiers stiffen. Horses are brought. The rider watches from the rock, amused, as you ride through without a word.\nYou made it quick. You made it feared.\nYou also made enemies.",
+      "choices": [
+        {
+          "text": "Ride out to the hills.",
+          "next": "hill_search",
+          "do": [
+            "trust:-10"
+          ]
+        }
+      ]
+    }
+  ]
+}

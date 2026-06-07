@@ -1,0 +1,58 @@
+{
+  "scenes": [
+    {
+      "id": "hill_search",
+      "chapter": "CHAPTER III · HILLSIDE",
+      "text": "You circle the doorway and find a second opening smaller, hidden behind roots — an old servant’s entrance. But a ward hums across it.\nYou can:\n  • Use the signet ring to weaken the ward.\n  • Try the lock if you recruited Moth.\n  • Force it with the sword and take the damage.",
+      "choices": [
+        {
+          "text": "Use the signet ring.",
+          "next": "hollow_gate",
+          "require": "signet_ring",
+          "do": [
+            "rem_item:signet_ring"
+          ]
+        },
+        {
+          "text": "Pick the lock (needs Moth).",
+          "next": "hollow_gate",
+          "require": "moth",
+          "do": [
+            "trust:5"
+          ]
+        },
+        {
+          "text": "Force it.",
+          "next": "hollow_gate",
+          "do": [
+            "fear:15",
+            "trust:-5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hollow_gate",
+      "chapter": "CHAPTER IV · THE HOLLOW GATE",
+      "text": "The stone is cold. The symbol glows when you touch it.\nThe wall doesn’t open — it breathes.\nYou step through, and the world ends.\nDarkness. Not night-dark. Something older. Something that eats light.\nAhead, a girl’s voice: a lullaby your mother used to hum. Elara. Close.\nSomething else is with her.",
+      "choices": [
+        {
+          "text": "Follow the singing.",
+          "next": "finale_start"
+        },
+        {
+          "text": "Move quietly through the dark.",
+          "next": "finale_start",
+          "do": [
+            "add_item:shadow_blade"
+          ]
+        },
+        {
+          "text": "Light a torch.",
+          "next": "finale_blind",
+          "require": "poultice"
+        }
+      ]
+    }
+  ]
+}
